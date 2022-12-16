@@ -50,7 +50,7 @@ If everything went right, it will produce the `Json.dll` LuaRT binary module.
 ## :small_blue_diamond:Usage
 The LuaRT module can be used by any LuaRT interpreter, either `luart.exe` or `wluart.exe`
 To use the LuaRT module in your applications, just require for the `json` module to load it :
-```
+```lua
 local json = require "json"
 ```
 The `json.dll` binary module must be in the same directory as the Lua script that loads it, or in the current `LUA_CPATH`
@@ -73,9 +73,9 @@ print(data[3].name) -- Prints LuaRT
   
 ## :small_blue_diamond:License
   
-Webview for LuaRT is copyright (c) 2022 Samir Tine.
-Webview for LuaRT is open source, released under the MIT License.
+JSON for LuaRT is copyright (c) 2022 Samir Tine.
+JSON for LuaRT is open source, released under the MIT License.
 
 See full copyright notice in the LICENSE file.
 
-[title]: contrib/Webview.png
+[title]: contrib/Json.png
