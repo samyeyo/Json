@@ -3,7 +3,7 @@
 ![JSON for LuaRT][title] 
 
 [![LuaRT module](https://badgen.net/badge/LuaRT/module/yellow)](https://www.luart.org/)
-![Windows](https://badgen.net/badge/Windows/10%20and%20later/blue?icon=windows)
+![Windows](https://badgen.net/badge/Windows/Vista%20and%20later/blue?icon=windows)
 [![LuaRT license](https://badgen.net/badge/License/MIT/green)](#license)
 [![Twitter Follow](https://img.shields.io/twitter/follow/__LuaRT__?style=social)](https://www.twitter.com/__LuaRT__)
 
