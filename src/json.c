@@ -13,10 +13,11 @@ static void LuaToJson(lua_State *L, Value *v) {
             break;
         case LUA_TSTRING:
             SetStrFast(v, lua_tostring(L, -1));
+            break;
         case LUA_TBOOLEAN:
             SetBool(v, lua_toboolean(L, -1));
             break;
-        case LUA_TTABLE:
+        case LUA_TTABLE: {
             lua_Integer len;
             if ((len = luaL_len(L, -1))) { //---- table is an array
                 SetArray(v);
@@ -40,6 +41,7 @@ static void LuaToJson(lua_State *L, Value *v) {
                     lua_pop(L, 1);
                 }
             }
+        }
     }
 }
 
@@ -104,24 +106,27 @@ static void JsonToLua(lua_State *L, Value *v) {
 //------------------------------------ json.decode() function
 LUA_METHOD(json, decode)
 {
-    // New Value
+    A = NewAllocator();
     Value *src_v = NewValue(A);
     const char *src = luaL_checkstring(L, 1);
 
     if (!ParseFast(src_v, src))
         return 0;
     JsonToLua(L, src_v);
+    ReleaseAllocator(A);
     return 1;
 }
 
 //------------------------------------ json.encode() function
 LUA_METHOD(json, encode)
 {
+    A = NewAllocator();
     Value *v = NewValue(A);
     luaL_checktype(L, 1, LUA_TTABLE);
     lua_pushvalue(L, 1);
     LuaToJson(L, v);
     lua_pushstring(L, Stringify(v));
+    ReleaseAllocator(A);
     return 1;
 }
 
@@ -137,18 +142,12 @@ static const luaL_Reg jsonlib[] = {
   {NULL, NULL}
 };
 
-LUA_METHOD(json, finalize) {
-    ReleaseAllocator(A);
-    return 0;
-}
-
 //----- "calc" module registration function
 int __declspec(dllexport) luaopen_json(lua_State *L)
 {
     //--- lua_regmodulefinalize() registers the specified module with a finalizer function
     //--- and pushes the module on the stack
-    A = NewAllocator();
-    lua_regmodulefinalize(L, json);
+    lua_regmodule(L, json);
     //--- returns one value (the just pushed calc module)
     return 1;
 }
