@@ -15,14 +15,16 @@
 # | Usage (default x86 release build)		 : make x86
 # |-------------------------------------------------------------
 
-#---- Platform selection
-#---- x86 for 32bits Json.dll
-#---- x64 for 64bits Json.dll
-
-PLATFORM ?= x64
-
 #---- LuaRT installation path (set it manually if autodetection fails)
-LUART_PATH= D:\Github\LuaRT
+LUART_PATH=D:\Github\LuaRT
+
+ifeq ($(LUART_PATH),)
+@LUART_PATH=$(shell luart.exe -e "print(sys.registry.read('HKEY_CURRENT_USER', 'Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\LuaRT', 'InstallLocation', false) or '')")
+endif
+
+ifeq ($(PLATFORM),)
+PLATFORM=$(shell $(LUART_PATH)\bin\luart.exe -e "print(_ARCH)")
+endif
 
 ifeq ($(LUART_PATH),)
 $(error LuaRT is not installed on this computer. Please set the LuaRT installation path manually in the Makefile or download and install LuaRT)
@@ -48,8 +50,8 @@ endif
 
 BUILD := release
 
-cflags.release = $(ARCH) -s -Os -mfpmath=sse -mieee-fp -DLUART_TYPE=__decl(dllimport) -D__MINGW64__ -D_WIN32_WINNT=0x0600 $(LUART_INCLUDE) -fno-exceptions -fdata-sections -ffunction-sections -fipa-pta -ffreestanding -fno-stack-check -fno-ident -fomit-frame-pointer -Wl,--gc-sections -Wl,--build-id=none -Wl,-O1 -Wl,--as-needed -Wl,--no-insert-timestamp -Wl,--no-seh -Wno-maybe-uninitialized -Wno-unused-parameter -Wno-unused-function -Wno-unused-but-set-parameter -Wno-implicit-fallthrough
-ldflags.release= -s -static-libgcc -lm -Wl,--no-insert-timestamp -Wl,--no-seh $(LUART_LIB) 
+cflags.release = $(ARCH) -s -Os -D__MINGW64__ -D_WIN32_WINNT=0x0600 $(LUART_INCLUDE) 
+ldflags.release= -static-libgcc $(LUART_LIB) 
 cflags.debug = $(ARCH) -g -O0 -mfpmath=sse -mieee-fp -mmmx -msse -msse2 -DDEBUG -D__MINGW64__ -D_WIN32_WINNT=0x0700 -DLUA_COMPAT_5_3 $(LUART_INCLUDE)
 ldflags.debug= -g -lm $(LUART_LIB)
 
@@ -64,9 +66,9 @@ default: all
 all:
 	@set CPLUS_INCLUDE_PATH=./src
 	@echo src/json.c
-	@$(CC) -shared $(LDFLAGS) $(LUART_INCLUDE) $(CFLAGS) -w src/json.c -o Json.dll $(LIBS)
+	@$(CC) -shared $(LDFLAGS) $(LUART_INCLUDE) $(CFLAGS) -w src/json.c -o json.dll $(LIBS)
 	@echo --------------------------------- Successfully built JSON for LuaRT $(PLATFORM)
-	@copy /Y Json.dll $(LUART_PATH)\modules
+	@copy /Y json.dll $(LUART_PATH)\modules
 
 debug:
 	@$(MAKE) "BUILD=debug"
