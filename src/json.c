@@ -11,9 +11,6 @@ static void LuaToJson(lua_State *L, Value *v) {
         case LUA_TNUMBER:
             SetNum(v, lua_tonumber(L, -1));
             break;
-        case LUA_TSTRING:
-            SetStrFast(v, lua_tostring(L, -1));
-            break;
         case LUA_TBOOLEAN:
             SetBool(v, lua_toboolean(L, -1));
             break;
@@ -34,14 +31,16 @@ static void LuaToJson(lua_State *L, Value *v) {
             	lua_pushnil(L);
 	            while (lua_next(L, -2)) {
                     Value *toadd = NewValue(v->A);
-                    SetKeyFast(toadd, luaL_checkstring(L, -2));
+                    SetKeyFast(toadd, lua_tostring(L, -2));
                     LuaToJson(L, toadd);
 		            if (!ObjAddFast(v, toadd))
                         return;
                     lua_pop(L, 1);
                 }
             }
-        }
+        } break;
+
+        default: SetStrFast(v, lua_tostring(L, -1));
     }
 }
 
@@ -106,7 +105,6 @@ static void JsonToLua(lua_State *L, Value *v) {
 //------------------------------------ json.decode() function
 LUA_METHOD(json, decode)
 {
-    A = NewAllocator();
     Value *src_v = NewValue(A);
     const char *src = luaL_checkstring(L, 1);
 
@@ -120,14 +118,16 @@ LUA_METHOD(json, decode)
 //------------------------------------ json.encode() function
 LUA_METHOD(json, encode)
 {
-    A = NewAllocator();
     Value *v = NewValue(A);
     luaL_checktype(L, 1, LUA_TTABLE);
     lua_pushvalue(L, 1);
     LuaToJson(L, v);
     lua_pushstring(L, Stringify(v));
-    ReleaseAllocator(A);
     return 1;
+}
+
+LUA_METHOD(json, finalize) {
+    ReleaseAllocator(A);
 }
 
 //--- luaL_Reg array for module properties, postfixed by "_properties"          
@@ -147,7 +147,8 @@ int __declspec(dllexport) luaopen_json(lua_State *L)
 {
     //--- lua_regmodulefinalize() registers the specified module with a finalizer function
     //--- and pushes the module on the stack
-    lua_regmodule(L, json);
+    A = NewAllocator();
+    lua_regmodulefinalize(L, json);
     //--- returns one value (the just pushed calc module)
     return 1;
 }
