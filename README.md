@@ -1,7 +1,7 @@
 <div align="center">
 
 ![JSON for LuaRT][title] 
-
+JSON binary module for LuaRT
 [![LuaRT module](https://badgen.net/badge/LuaRT/module/yellow)](https://www.luart.org/)
 ![Windows](https://badgen.net/badge/Windows/Vista%20and%20later/blue?icon=windows)
 [![LuaRT license](https://badgen.net/badge/License/MIT/green)](#license)
@@ -10,7 +10,7 @@
 [Features](#small_blue_diamondfeatures) |
 [Installation](#small_blue_diamondinstallation) |
 [Usage](#small_blue_diamondusage) |
-[Documentation](https://www.luart.org/doc/webview/index.html) |
+[Documentation](https://www.luart.org/doc/json/index.html) |
 [License](#small_blue_diamondlicense)
 
 </div>
@@ -79,4 +79,4 @@ JSON for LuaRT is open source, released under the MIT License.
 
 See full copyright notice in the LICENSE file.
 
-[title]: contrib/Json.png
+[title]: contrib/json.png
