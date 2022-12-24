@@ -25,7 +25,7 @@ Fast JSON binary module for LuaRT
   
 ## :small_blue_diamond:Installation
 
-Before using the JSON module, you must have previously installed [LuaRT](https://github.com/samyeyo/LuaRT) to continue.
+Before using the JSON module, you must have been previously installed [LuaRT](https://github.com/samyeyo/LuaRT) to continue.
 
 #### Method 1 : JSON module release package :package:
 
@@ -49,7 +49,7 @@ cd Json\
 make
 ```
 It will try to autodetect the LuaRT path and platform, and if it failed, you can still set the `LUART_PATH` directory in the Makefile.  
-If everything went right, it will produce the `json.dll` LuaRT binary module.
+If everything went right, it will produce the `json.dll` LuaRT binary module, and put a copy in your LuaRT `modules\` folder.
 
 ## :small_blue_diamond:Usage
 The LuaRT module can be used by any LuaRT interpreter, either `luart.exe` or `wluart.exe`  
