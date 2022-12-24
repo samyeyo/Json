@@ -16,10 +16,10 @@
 # |-------------------------------------------------------------
 
 #---- LuaRT installation path (set it manually if autodetection fails)
-LUART_PATH=D:\Github\LuaRT
+LUART_PATH=
 
 ifeq ($(LUART_PATH),)
-@LUART_PATH=$(shell luart.exe -e "print(sys.registry.read('HKEY_CURRENT_USER', 'Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\LuaRT', 'InstallLocation', false) or '')")
+LUART_PATH=$(shell luart.exe -e "print(sys.registry.read('HKEY_CURRENT_USER', 'Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\LuaRT', 'InstallLocation', false) or '')")
 endif
 
 ifeq ($(PLATFORM),)
