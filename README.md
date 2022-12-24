@@ -1,6 +1,8 @@
 <div align="center">
 
 ![JSON for LuaRT][title]  
+Fast JSON binary module for LuaRT
+
 [![LuaRT module](https://badgen.net/badge/LuaRT/module/yellow)](https://www.luart.org/)
 ![Windows](https://badgen.net/badge/Windows/Vista%20and%20later/blue?icon=windows)
 [![LuaRT license](https://badgen.net/badge/License/MIT/green)](#license)
@@ -23,12 +25,13 @@
   
 ## :small_blue_diamond:Installation
 
-Before using the JSON module, you must install [LuaRT](https://github.com/samyeyo/LuaRT) to continue.
+Before using the JSON module, you must have previously installed [LuaRT](https://github.com/samyeyo/LuaRT) to continue.
 
 #### Method 1 : JSON module release package :package:
 
 The preferred way to get the JSON module is to download the latest release package available on GitHub.  
 Just unpack the downloaded archive to get the `Json.dll` LuaRT binary module, and place it in the `modules` folder of your LuaRT installation.
+Be sure to download the right platform version as your LuaRT installation, either `x86` or `x64`
   
 #### Method 2 : JSON module from sources :gear:
 
@@ -46,7 +49,7 @@ cd Json\
 make
 ```
 It will try to autodetect the LuaRT path and platform, and if it failed, you can still set the `LUART_PATH` directory in the Makefile.  
-If everything went right, it will produce the `Json.dll` LuaRT binary module.
+If everything went right, it will produce the `json.dll` LuaRT binary module.
 
 ## :small_blue_diamond:Usage
 The LuaRT module can be used by any LuaRT interpreter, either `luart.exe` or `wluart.exe`  
@@ -64,9 +67,9 @@ local data = json.decode('["Hello", "World", {"name": "LuaRT"} ]')
 print(data[3].name) -- Prints LuaRT
 ```
 > **Warning**
-> The `Json.dll` binary module must be in the same directory as the Lua script that loads it, or in the current `LUA_CPATH`  
+> The `json.dll` binary module must be in the same directory as the Lua script that loads it, or in the current `LUA_CPATH`
 
-  
+
 ## :small_blue_diamond:Documentation
   
 - :book: [JSON for LuaRT Documentation](http://www.luart.org/doc/json/index.html)
